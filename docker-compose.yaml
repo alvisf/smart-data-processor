@@ -1,26 +1,27 @@
 version: "2"
+
 services:
   rabbit:
     hostname: rabbit
     image: rabbitmq:latest
-    environment:
-      # - RABBITMQ_DEFAULT_USER=admin
-      # - RABBITMQ_DEFAULT_PASS=mypass
+    # environment:
+    #   - RABBITMQ_DEFAULT_USER=admin
+    #   - RABBITMQ_DEFAULT_PASS=mypass
     ports:
       - "5673:5672"
 
   worker:
-    build:
-      context: .
-      dockerfile: dockerfile
-    volumes:
-      - .:/app
+    build: .
+    command: python3 app.py
     links:
       - rabbit
     depends_on:
       - rabbit
-  database:
-    hostname: mongo
-    image: mongo:latest
     ports:
-      - "27018:27017"
+      - "5000:5000"
+
+  # database:
+  #   hostname: mongo
+  #   image: mongo:latest
+  #   ports:
+  #     - "27018:27017"

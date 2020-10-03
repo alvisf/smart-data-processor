@@ -1,7 +1,7 @@
 from celery import Celery
 from PIL import Image  
 
-app = Celery('tasks', backend='rpc://', broker='pyamqp://')
+app = Celery('tasks', backend='rpc://', broker='amqp://admin:mypass@rabbit:5672//:')
 
 @app.task
 def image_demension(img):
