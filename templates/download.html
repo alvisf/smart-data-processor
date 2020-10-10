@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+</head>
+<body>
+  <input type = "hidden" value = "{{loc}}" id = "loc"/>
+<table style = "margin-top: 100px;">
+  <tr>
+    <th>Description</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Link</th>
+  </tr>
+  <tr>
+    <td>API</td>
+    <td>{{start_time}}</td>
+    <td id = "api_time2"></td>
+    <td id = "download_img"></td>
+  </tr>
+  <tr>
+    <td>Worker</td>
+    <td>{{start_time}}</td>
+    <td id = "w_time2"></td>
+    <td>-</td>
+  </tr>
+</table>
+<script>
+  var loc = document.getElementById("loc").value
+  fetch("/send-task", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      loc:loc,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data)
+      var end_time = data['time']
+      console.log(end_time)
+      document.getElementById('api_time2').innerHTML = end_time
+      document.getElementById('w_time2').innerHTML = end_time
+      var myrow = document.getElementById("download_img");
+    var aTag = document.createElement('a');
+    aTag.setAttribute('href',"../static/worker-img/cropped_img."+data['img_ext']);
+    aTag.setAttribute('download',"download");
+    aTag.innerHTML = "Download";
+    myrow.appendChild(aTag);
+
+    })
+
+</script>
+</body>
+</html>
