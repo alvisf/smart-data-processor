@@ -1,7 +1,7 @@
 from celery import Celery
 from flask import Flask
 from PIL import Image  
-from settings import 
+
 import os
 import time
 
