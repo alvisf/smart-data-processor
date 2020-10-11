@@ -1,17 +1,13 @@
 from celery import Celery
 from flask import Flask
 from PIL import Image  
-
+from settings import 
 import os
 import time
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-
-BROKER_URL = "sqs://%s:%s@" % (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
 app1 = Flask(__name__)
-app = Celery('tasks', backend='rpc://', broker=BROKER_URL)
+app = Celery('tasks', backend='rpc://', broker='amqp://')
 app1.config['UPLOAD_FOLDER'] = 'static/worker-img'
 
 @app.task()
